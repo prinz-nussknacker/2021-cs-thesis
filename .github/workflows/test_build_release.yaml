@@ -1,0 +1,70 @@
+name: Test CQ, build and release
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Test for trailing whitespace
+        uses: harupy/find-trailing-whitespace@master
+      - name: Check for missing newlines
+        uses: fernandrone/linelint@master
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: thesis.tex
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: thesis.pdf
+          path: thesis.pdf
+          if-no-files-found: error
+  release:
+    if: github.ref == 'refs/heads/master' # Releases go only from master
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Declare variables
+        id: vars
+        shell: bash
+        run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Create Release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: "autorelease-${{ steps.vars.outputs.sha_short }}"
+          release_name: "Automatic release from ${{ steps.vars.outputs.branch }}"
+          draft: false
+          prerelease: false
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: thesis.pdf
+      - name: Upload artifact to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: thesis.pdf
+          asset_name: thesis.pdf
+          asset_content_type: application/pdf
