@@ -1,9 +1,11 @@
 name: Test CQ, build and release
 on:
-  pull_request
+  pull_request:
+    branches:
+      - master
   push:
     branches:
-    - master
+      - master
 jobs:
   test:
     runs-on: ubuntu-latest
