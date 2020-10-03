@@ -1,0 +1,19 @@
+# Build files
+**/*.aux
+**/*-blx.bib
+**/*.bbl
+**/*.blg
+**/*.fdb_latexmk
+**/*.fls
+**/*.log
+**/*.nav
+**/*.pdf
+**/*.synctex.gz
+**/*.synctex(busy)
+**/*.toc
+**/*.txss
+**/*.run.xml
+**/*.bcf
+
+# PDF output
+**/*.pdf

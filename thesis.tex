@@ -1,0 +1,52 @@
+\documentclass[licencjacka,en]{pracamgr}
+
+\autor{Autor Zerowy}{342007}
+\autori{Autor Pierwszy}{342013}
+\autorii{Drugi Autor-Z-Rzędu}{231023}
+\autoriii{Trzeci z Autorów}{777321}
+
+\title{Title in English}
+\titlepl{Tytuł po polsku}
+
+\kierunek{Computer Science}
+
+\opiekun{<opiekun>\\
+  <instytut>\\
+}
+
+\date{June 2021}
+
+% Socrates-Erasmus:
+\dziedzina{11.3 Informatics, Computer Science}
+
+% ACM
+\klasyfikacja{X. ?\\
+  X.0. ?\\
+  X.0.0. ?}
+
+\keywords{<keywords>}
+
+% Custom definitions
+\newtheorem{definition}{Definition}[section]
+% End of custom definitions
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  <abstract>
+\end{abstract}
+
+\tableofcontents
+%\listoffigures
+%\listoftables
+
+% Chapters
+\input{chapters/introduction.tex}
+\input{chapters/sample-chapter.tex}
+
+\bibliographystyle{alpha}
+\bibliography{references}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\end{document}
