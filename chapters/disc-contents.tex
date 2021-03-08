@@ -1,0 +1,45 @@
+\chapter{Disc contents}
+\label{chap:disc-contents}
+
+Attached CD contains snapshot of the repository.
+Its directory structure is presented below with short descriptions of selected nodes.
+
+{
+  \newcommand{\node}[1]{
+    \texttt{#1}
+  }
+  \newcommand{\nodewithdesc}[2]{
+    \texttt{#1} \enskip #2
+  }
+
+  \vspace{1em}
+  \todo[inline]{Revisit in June 2021. Filler content for now.}
+  \begin{forest}
+    for tree={
+      grow'=0,
+      child anchor=west,
+      parent anchor=south,
+      anchor=west,
+      calign=first,
+      inner xsep=10pt,
+      edge path={
+        \noexpand\path [draw, \forestoption{edge}]
+        (!u.south west) |- (.child anchor) pic {folder} \forestoption{edge label};
+      },
+      before typesetting nodes={
+        if n=1
+          {insert before={[,phantom]}}
+          {}
+      },
+      fit=band,
+      before computing xy={l=15pt},
+    }
+  [{}
+    [\nodewithdesc{.github}{GitHub automation definitions}]
+    [\node{dev-environment}
+      [\nodewithdesc{docker-compose.yaml}{Definition of the development environment}]
+    ]
+    [\node{README.md}]
+  ]
+  \end{forest}
+}

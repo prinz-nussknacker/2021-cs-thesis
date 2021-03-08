@@ -2,11 +2,11 @@
 
 \autor{Krzysztof Antoniak}{358985}
 \autori{Michał Jadwiszczak}{406163}
-\autorii{Jan Kukowski}{406240}
+\autorii{Jan Kukowski}{406204}
 \autoriii{Maciej Procyk}{406304}
 
-\title{Title in English}
-\titlepl{Tytuł po polsku}
+\title{\input{title-page/title-en.tex}}
+\titlepl{\input{title-page/title-pl.tex}}
 
 \kierunek{Computer Science}
 
@@ -20,25 +20,40 @@
 \dziedzina{11.3 Informatics, Computer Science}
 
 % ACM
-\klasyfikacja{X. ?\\
-  X.0. ?\\
-  X.0.0. ?}
+\klasyfikacja{
+  \todo[inline]{Select codes from \href{https://dl.acm.org/ccs}{ACM Computing Classification System}}
+}
 
-\keywords{<keywords>}
+\keywords{\input{title-page/keywords-en.tex}}
 
 % Custom imports
+\usepackage{forest}
 \usepackage[unicode]{hyperref}
+\usepackage{todonotes}
 % End of custom imports
 
 % Custom definitions
 \newtheorem{definition}{Definition}[section]
 % End of custom definitions
 
+% Folder image for directory tree
+\definecolor{folderbg}{RGB}{124,166,198}
+\definecolor{folderborder}{RGB}{110,144,169}
+\def\FolderSize{4pt}
+\tikzset{
+	folder/.pic={
+		\filldraw[draw=folderborder,top color=folderbg!50,bottom color=folderbg]
+		(-1.05*\FolderSize,0.2\FolderSize+5pt) rectangle ++(.75*\FolderSize,-0.2\FolderSize-5pt);
+		\filldraw[draw=folderborder,top color=folderbg!50,bottom color=folderbg]
+		(-1.15*\FolderSize,-\FolderSize) rectangle (1.15*\FolderSize,\FolderSize);
+	}
+}
+
 \begin{document}
 \maketitle
 
 \begin{abstract}
-  <abstract>
+  \input{title-page/abstract-en.tex}
 \end{abstract}
 
 \tableofcontents
@@ -48,6 +63,10 @@
 % Chapters
 \input{chapters/introduction.tex}
 \input{chapters/sample-chapter.tex}
+\input{chapters/responsibilities.tex}
+
+\appendix
+\input{chapters/disc-contents.tex}
 
 \bibliographystyle{alpha}
 \bibliography{references}
