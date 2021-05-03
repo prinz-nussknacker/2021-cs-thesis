@@ -1,0 +1,58 @@
+\chapter{Project development}
+\label{chap:project-development}
+
+\todo[inline]{TODO(kantoniak): Revisit in June.}
+
+\section{Project management}
+
+\todo[inline,caption={}]{
+  TODO:
+  \begin{itemize}
+	\item For Touk: answering to a need, open-source project
+	\item Timeline
+	\item Weekly meetings
+	\item Issues and boards
+  \end{itemize}
+}
+
+\section{Development}
+
+\subsection{Tools and technologies}
+
+\todo[inline]{TODO}
+
+\subsection{Programming workflow}
+
+Development processes in the project rely heavily on the features provided by GitHub\footnote{\href{https://github.com/}{https://github.com/}}, our repository host provider.
+
+For each new issue, engineer creates a development branch. Branch names follow naming convention \texttt{username/feature-name}.
+Developer uses this branch as a development area.
+Once the feature is implemented, they create a pull request to the main project branch.
+
+Pull request is a final stage before merging changes to the code base.
+Its creation triggers a number of automated checks (called ''GitHub workflows'') to enforce code quality and reveal regressions.
+Code quality evaluation includes simple checks (e.g. for extra white space) and static analysis tools like \texttt{scalastyle}.
+Regression testing comprises unit tests of the project.
+
+Other team members can review the code and request changes.
+Developer usually pushes new commits with the updates (what in turn triggers workflows again).
+They mark conversation as resolved and ask team members for approval.
+With an approval and all checks passing, developer checks-in their code to the main branch.
+
+Team introduced \texttt{dev/feature} branches at a later stage of the project.
+These are dedicated for complex changes involving multiple contributors.
+Pushing to \texttt{dev/feature} branches follows the same workflow.
+
+\subsection{Other issues}
+
+\paragraph{Protected branches.}
+To prevent accidental changes, \texttt{master} branch was marked as protected.
+This means that contributors can't push to \texttt{master} directly.
+Also, pull requests require an approval and passing checks and cannot be merged otherwise.
+The same rules apply to \texttt{dev/feature} branches.
+
+\paragraph{Additional documentation.}
+Project includes additional documentation served as a GitBook\footnote{\href{https://gitbook.com/}{https://gitbook.com/}} web page.
+Manual pages are written in Markdown and stored along the code.
+This approach allows to automate building and deploying HTML pages using existing solutions.
+Choice of GitBook and its version follows on from the parent project.
