@@ -19,11 +19,21 @@
 
 \subsection{Tools and technologies}
 
-\todo[inline]{TODO}
+Prinz is a set of extensions for Nussknacker.
+It adopts similar concepts as the parent project to ease integration and developer onboarding.
+
+Core parts of the code base are written in Scala 2.12 and built with the \texttt{sbt} tool.
+External libraries often provide only an API for Java, which requires occasional use of Java classes.
+Example models (along with some adapter code for the serving endpoints) were prepared in Python 3 due to its popularity among the data science community \cite{srinath2017python}.
+
+Team uses \texttt{.git} as the project's control version system.
+Files are hosted remotely on GitHub\footnote{\href{https://github.com/}{https://github.com/}}, which also provides tools to manage issues, pull requests and project boards.
+While there are no requirements regarding developer tools, all members opted for using IntelliJ IDEA, an IDE often used by Scala engineers.
+Documentation and specifications use Markdown where possible.
 
 \subsection{Programming workflow}
 
-Development processes in the project rely heavily on the features provided by GitHub\footnote{\href{https://github.com/}{https://github.com/}}, our repository host provider.
+Development processes in the project rely heavily on the features provided by GitHub.
 
 For each new issue, engineer creates a development branch. Branch names follow naming convention \texttt{username/feature-name}.
 Developer uses this branch as a development area.
@@ -43,7 +53,7 @@ Team introduced \texttt{dev/feature} branches at a later stage of the project.
 These are dedicated for complex changes involving multiple contributors.
 Pushing to \texttt{dev/feature} branches follows the same workflow.
 
-\subsection{Other issues}
+\subsection{Interesting issues}
 
 \paragraph{Protected branches.}
 To prevent accidental changes, \texttt{master} branch was marked as protected.
