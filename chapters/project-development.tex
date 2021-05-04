@@ -11,7 +11,7 @@ There were three parties involved in the project.
 
 \paragraph{Development team.}
 Authors of this thesis worked on the project for its whole duration.
-Students had little or none prior knowledge of Scala or machine learning solutions.
+Students had little or no prior knowledge of Scala or machine learning solutions.
 Maciej Procyk took the role of a team leader on a day-to-day basis.
 
 \paragraph{Touk sp. z.o.o. s.k.a.}
@@ -19,17 +19,17 @@ Touk\footnote{\href{https://touk.pl/}{https://touk.pl/}} is a software house whi
 Maciej Próchniak was the contact person and a technical consultant for the project.
 
 \paragraph{University of Warsaw.}
-Project was developed for a bachelor thesis at The Faculty of Mathematics, Informatics and Mechanics of the University of Warsaw.
+Authors developed the project for a bachelor thesis at The Faculty of Mathematics, Informatics and Mechanics of the University of Warsaw.
 Janusz Jabłonowski was the contact person for legal issues.
 Grzegorz Grudziński supervised the project itself.
 
 \subsection{Communications}
 
-Prinz was developed during the Covid-19 pandemic, which greatly influenced the usual development workflow.
+Prinz was developed during the Covid-19 pandemic, which influenced the usual development workflow.
 Except for actions required by law, all meetings were held online.
 
 Team developed the code asynchronously, meeting every weekly for a sprint retrospective and discussing new issues.
-Slack was used to bridge a gap arising from lack of face-to-face consultations during the week.
+They used Slack to bridge a gap arising from lack of face-to-face consultations during the week.
 Each Thursday delegated members met with the supervisor to discuss development progress.
 Team also held Friday meetings with the commissioning party to encourage bidirectional flow of information.
 
@@ -53,8 +53,8 @@ The list below presents important milestones.
 Prinz is a set of extensions for Nussknacker.
 It adopts similar concepts as the parent project to ease integration and developer onboarding.
 
-Core parts of the code base are written in Scala 2.12 and built with the \texttt{sbt} tool.
-External libraries often provide only an API for Java, which requires occasional use of Java classes.
+Core parts of the solution are Scala 2.12 code built with the \texttt{sbt} tool.
+External libraries often supply only a Java API, which requires occasional use of Java classes.
 Example models (along with some adapter code for the serving endpoints) were prepared in Python 3 due to its popularity among the data science community \cite{srinath2017python}.
 
 Team uses \texttt{.git} as the project's control version system.
@@ -68,10 +68,10 @@ Development processes in the project rely heavily on the features provided by Gi
 
 For each new issue, engineer creates a development branch. Branch names follow naming convention \texttt{username/feature-name}.
 Developer uses this branch as a development area.
-Once the feature is implemented, they create a pull request to the main project branch.
+Once the feature is ready, they create a pull request to the main project branch.
 
 Pull request is a final stage before merging changes to the code base.
-Its creation triggers a number of automated checks (called ''GitHub workflows'') to enforce code quality and reveal regressions.
+Its creation triggers several automated checks (called ''GitHub workflows'') to enforce code quality and reveal regressions.
 Code quality evaluation includes simple checks (e.g. for extra white space) and static analysis tools like \texttt{scalastyle}.
 Regression testing comprises unit tests of the project.
 
