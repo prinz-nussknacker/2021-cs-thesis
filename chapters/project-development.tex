@@ -1,0 +1,99 @@
+\chapter{Project development}
+\label{chap:project-development}
+
+This chapter describes approaches to managing work and developing the project.
+
+\section{Project management}
+
+\subsection{Stakeholders}
+
+There were three parties involved in the project.
+
+\paragraph{Development team.}
+Authors of this thesis worked on the project for its whole duration.
+Students had little or no prior knowledge of Scala or machine learning solutions.
+Maciej Procyk took the role of a team leader on a day-to-day basis.
+
+\paragraph{Touk sp. z.o.o. s.k.a.}
+Touk\footnote{\href{https://touk.pl/}{https://touk.pl/}} is a software house which ordered the integrations in response to a rising demand for machine learning solutions in Nussknacker.
+Maciej Próchniak was the contact person and a technical consultant for the project.
+
+\paragraph{University of Warsaw.}
+Authors developed the project for a bachelor thesis at The Faculty of Mathematics, Informatics and Mechanics of the University of Warsaw.
+Janusz Jabłonowski was the contact person for legal issues.
+Grzegorz Grudziński supervised the project itself.
+
+\subsection{Communications}
+
+Prinz was developed during the Covid-19 pandemic, which influenced the usual development workflow.
+Except for actions required by law, all meetings were held online.
+
+Team developed the code asynchronously, meeting every weekly for a sprint retrospective and discussing new issues.
+They used Slack to bridge a gap arising from lack of face-to-face consultations during the week.
+Each Thursday delegated members met with the supervisor to discuss development progress.
+Team also held Friday meetings with the commissioning party to encourage bidirectional flow of information.
+
+\subsection{Timeline}
+
+The project started in October 2020 with an estimated deadline of June 2021.
+The list below presents important milestones.
+\begin{enumerate}
+  \item \textbf{October 1, 2020}: Start of development.
+  \item \textbf{January 7, 2021}: Presentation of different approaches to serving machine learning solutions at university seminar. Project will later include integrations for these technologies.
+  \item \textbf{January 27, 2021}: MLflow integration merged to \texttt{master}. Start of the PMML subproject.
+  \item \textbf{February 4, 2021}: Demo of the MLflow integration to the client.
+  \item \textbf{March 21, 2021}: Start of the H2O subproject.
+  \item \textbf{April 15, 2021}: PMML integration merged to the main branch.
+\end{enumerate}
+
+\section{Development}
+
+\subsection{Tools and technologies}
+
+Prinz is a set of extensions for Nussknacker.
+It adopts similar concepts as the parent project to ease integration and developer onboarding.
+
+Core parts of the solution are Scala 2.12 code built with the \texttt{sbt} tool.
+External libraries often supply only a Java API, which requires occasional use of Java classes.
+Example models (along with some adapter code for the serving endpoints) were prepared in Python 3 due to its popularity among the data science community \cite{srinath2017python}.
+
+Team uses \texttt{.git} as the project's control version system.
+Files are hosted remotely on GitHub\footnote{\href{https://github.com/}{https://github.com/}}, which also provides tools to manage issues, pull requests and project boards.
+While there are no requirements regarding developer tools, all members opted for using IntelliJ IDEA, an IDE often used by Scala engineers.
+Documentation and specifications use Markdown where possible.
+
+\subsection{Programming workflow}
+
+Development processes in the project rely heavily on the features provided by GitHub.
+
+For each new issue, engineer creates a development branch. Branch names follow naming convention \texttt{username/feature-name}.
+Developer uses this branch as a development area.
+Once the feature is ready, they create a pull request to the main project branch.
+
+Pull request is a final stage before merging changes to the code base.
+Its creation triggers several automated checks (called ''GitHub workflows'') to enforce code quality and reveal regressions.
+Code quality evaluation includes simple checks (e.g. for extra white space) and static analysis tools like \texttt{scalastyle}.
+Regression testing comprises unit tests of the project.
+
+Other team members can review the code and request changes.
+Developer usually pushes new commits with the updates (what in turn triggers workflows again).
+They mark conversation as resolved and ask team members for approval.
+With an approval and all checks passing, developer checks-in their code to the main branch.
+
+Team introduced \texttt{dev/feature} branches at a later stage of the project.
+These are dedicated for complex changes involving multiple contributors.
+Pushing to \texttt{dev/feature} branches follows the same workflow.
+
+\subsection{Interesting issues}
+
+\paragraph{Protected branches.}
+To prevent accidental changes, \texttt{master} branch was marked as protected.
+This means that contributors can't push to \texttt{master} directly.
+Also, pull requests require an approval and passing checks and cannot be merged otherwise.
+The same rules apply to \texttt{dev/feature} branches.
+
+\paragraph{Additional documentation.}
+Project includes additional documentation served as a GitBook\footnote{\href{https://gitbook.com/}{https://gitbook.com/}} web page.
+Manual pages are written in Markdown and stored along the code.
+This approach allows to automate building and deploying HTML pages using existing solutions.
+Choice of GitBook and its version follows on from the parent project.
