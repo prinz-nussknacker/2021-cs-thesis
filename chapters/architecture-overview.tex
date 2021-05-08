@@ -32,7 +32,7 @@ Exact behavior is implementation dependent, but this call should:
 	\item prepare model for signature extraction,
 	\item prepare model for scoring.
 \end{itemize}
-Operation may require additional communication with the storage.
+Operation may require additional communication with the service.
 At this point model would usually get loaded into memory if it is needed.
 
 \subsection{Signatures}
@@ -41,7 +41,7 @@ Each machine learning models has inputs and outputs.
 Their names (or ordering) along with data types form a model signature.
 Since range of supported types varies between different libraries, Prinz also abstracts signatures.
 
-Each \texttt{ModelInstance} is instantiated with a signature provider, which will extract inputs and outputs from the model.
+Each \texttt{ModelInstance} is instantiated with a signature provider, which will supply inputs and outputs of the model.
 External data types are mapped to internal \texttt{SignatureType}s based on types supported by Nussknacker.
 Extracted features and outputs are available in the Nussknacker UI for process designers.
 
@@ -54,7 +54,7 @@ Scoring starts by calling \texttt{run} on a \texttt{PrinzEnricher}.
 During the scoring phase Prinz:
 \begin{enumerate}
 	\item converts inputs to external types based on the model signature,
-	\item triggers scoring and receives inputs,
-	\item translates output from external types to the ones used by Nussknacker.
+	\item triggers scoring and receives outputs,
+	\item translates results from external types to the ones used by Nussknacker.
 \end{enumerate}
 Received outputs may be used for further processing.
