@@ -48,9 +48,9 @@ the difference between the clean environment and the environment with trained mo
 
 MLflow allows to deploy the trained models from its registry in a few ways including:
 \begin{itemize}
-	\item deploying \texttt{python_function} model to Microsoft Azure ML
-	\item deploying \texttt{python_function} model to Amazon SageMaker
-	\item exporting \texttt{python_function} as an ApacheSpark UDF
+	\item deploying \texttt{python\_function} model to Microsoft Azure ML
+	\item deploying \texttt{python\_function} model to Amazon SageMaker
+	\item exporting \texttt{python\_function} as an ApacheSpark UDF
 	\item exporting a REST API endpoint serving the model as a docker image
 	\item deploying the model as a REST API local server
 \end{itemize}
@@ -122,7 +122,7 @@ valid input will be allowed for model input (which is not so obvious while the m
 on the MLflow side is done with Python that hasn’t the static typing). However, creating the signature
 for MLflow models in Python has a single drawback e.i. the model output doesn’t have any names and are
 given as the ordered list in the JSON response. We manually create the additional labels for model outputs
-in the process of scoring with the following outputs named \texttt{output_0}, \texttt{output_1} etc. Thanks to this
+in the process of scoring with the following outputs named \texttt{output\_0}, \texttt{output\_1} etc. Thanks to this
 approach the final user of the Nussknacker GUI can configure the model in an easier way but still he has
 to know the mapping between the interesting data and its order in the output model map.
 
