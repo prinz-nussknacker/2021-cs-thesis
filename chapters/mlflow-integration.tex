@@ -3,18 +3,18 @@
 
 \section{MLflow project overview}
 
-MLflow is an open source project which allows managing the whole Machine Learning lifecycle.
+MLflow is an open source project which allows managing the whole machine learning lifecycle.
 It includes experimentation, deployment and reproducibility of models as well as a central registry
 for versioning trained models. It was proposed by the Databricks team working with hundreds of companies
-using Machine Learning as a solution to common production problems when working with Machine Learning
+using machine learning as a solution to common production problems when working with machine learning
 models and their deployment.
 
 The whole MLflow platform was inspired by existing solutions from Facebook, Google and Uber which
 seem to be limited because they support only a small set of built-in algorithms or a single library,
-and they are strictly connected to each company’s infrastructure. They don’t allow easy use of new
-Machine Learning libraries and share the results of work with an open community.
+and they are strictly connected to each company’s infrastructure. They don’t allow to easily use of new
+machine learning libraries and share the results of work with an open community.
 
-MLflow was designed to be an open source solution in two senses:
+MLflow was designed to be an open solution in two senses:
 
 \begin{itemize}
 	\item open source: it is an open source library publicly available that can be easily adapted
@@ -22,10 +22,10 @@ MLflow was designed to be an open source solution in two senses:
 	the whole workflow and models from one organization to another if you wish to share your
 	code with collaborators.
 
-	\item open interface: it is designed to work with many already available tools, Machine Learning
+	\item open interface: it is designed to work with many already available tools, machine learning
 	libraries, implemented libraries and algorithms. It’s built using the REST APIs and readable data
-	formats where for example a Machine Learning model can be seen as a single lambda function called
-	on model evaluation. It was designed to be easily introduced to existing Machine Learning projects
+	formats where for example a machine learning model can be seen as a single lambda function called
+	on model evaluation. It was designed to be easily introduced to existing machine learning projects
 	so the users can benefit from it immediately.
 \end{itemize}
 
@@ -73,8 +73,8 @@ prepared as separate Docker images).
 Configured MLflow server used in our environment model serves as the model registry which takes care
 about model versioning and serving the base models' information using the REST API. As there is no
 implementation for Scala (and Java) language for this REST API, we have created our own implementation
-of the provided API with the usage of high level HTTP client library named sttp written by SoftwareMill
-and the model objects serializer called circe powered by Cats. These two libraries allow us to create
+of the provided API with the usage of high level HTTP client library named \texttt{sttp} written by SoftwareMill
+and the model objects serializer called \texttt{circe} powered by Cats. These two libraries allow us to create
 the model corresponding to the official MLflow documentation which could be easily integrated with the
 current version of MLflow models repository.
 
@@ -92,7 +92,7 @@ this can be in most cases done automatically.
 
 MLflow model is instantiated based on the data received and parsed in JSON format from MLflow models
 registry and the signature data located in artefact storage of model. The signature data is parsed
-separately from a YAML formatted file which is also mapped to JsonCodec model class with auto Encoder/Decoder
+separately from a YAML formatted file which is also mapped to \texttt{JsonCodec} model class with auto Encoder/Decoder
 mechanism.
 
 When the MLflow model is instantiated to allow scoring the served model, the whole conversion of data
