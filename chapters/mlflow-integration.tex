@@ -7,12 +7,12 @@ MLflow is an open source project which allows managing the whole machine learnin
 It includes experimentation, deployment and reproducibility of models as well as a central registry
 for versioning trained models. It was proposed by the Databricks team working with hundreds of companies
 using machine learning as a solution to common production problems when working with machine learning
-models and their deployment.
+models and their deployment.\cite{mlflowpage}
 
 The whole MLflow platform was inspired by existing solutions from Facebook, Google and Uber which
 seem to be limited because they support only a small set of built-in algorithms or a single library,
 and they are strictly connected to each company’s infrastructure. They don’t allow to easily use of new
-machine learning libraries and share the results of work with an open community.
+machine learning libraries and share the results of work with an open community.\cite{mlflowarticle}
 
 MLflow was designed to be an open solution in two senses:
 
@@ -60,7 +60,7 @@ that we already work with and the resources that can be used for the deployment 
 REST API server is the easiest solution while it doesn’t scale up with the number of models. When the
 developers take care about the environment, and it’s really hard to set up a fresh, clean environment
 from scratch it’s better to manage the models using separated Docker containers (which deployment
-process can additionally be easily automated).
+process can additionally be easily automated).\cite{mlflowdoc}
 
 In our environment the models after training are served as a local REST API in Docker image with MLflow
 server inside where they have ports exposed for external usage. With this approach we can clean the
