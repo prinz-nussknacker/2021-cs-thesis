@@ -1,14 +1,16 @@
 \chapter{Prinz API}
 \label{chap:prinz-api}
 
-This chapter describes the API provided by Prinz. The main goal of the API is to allow developers to add new integrations in a simple and unified way. Each consecutive integration consists of customizable classes that extend traits defined in the API.
+This chapter describes the API provided by Prinz.
+The main goal of the API is to allow developers to add new integrations in a simple and unified way.
+Each consecutive integration consists of customizable classes that extend traits defined in the API.
 
 \section{ModelSignature}
 \label{sec:model-signature}
 
-The \texttt{ModelSignature} trait describes the correct format of input and output data for a given model. 
-Each signature consists of two lists of \texttt{SignatureField}s - one for the input and one for the output. 
-A \texttt{SignatureField} describes the format of a single column of data. 
+The \texttt{ModelSignature} trait describes the correct format of input and output data for a given model.
+Each signature consists of two lists of \texttt{SignatureField}s - one for the input and one for the output.
+A \texttt{SignatureField} describes the format of a single column of data.
 It consists of a \texttt{SignatureName} - the name of the given column and a \texttt{SignatureType} - the type of data in this column, which can be interpreted by Nussknacker.
 
 \subsection{SignatureProvider}
@@ -39,4 +41,7 @@ The keys of the returned multimap refer to the column names of the model output 
 
 \section {ModelRepository}
 
-The  \texttt{ModelRepository} trait provides a consistent way of listing models for each integration. Each instance of a  \texttt{ModelRepository} contains information about the configuration of a given integration. Based on this information, the \texttt{ModelRepository.listModels} function returns a list of all \texttt{Model}s available in this repository. Those models can later be accessed in the Nussknacker UI and scored using provided data.
+The  \texttt{ModelRepository} trait provides a consistent way of listing models for each integration.
+Each instance of a  \texttt{ModelRepository} contains information about the configuration of a given integration.
+Based on this information, the \texttt{ModelRepository.listModels} function returns a list of all \texttt{Model}s available in this repository.
+Those models can later be accessed in the Nussknacker UI and scored using provided data.
