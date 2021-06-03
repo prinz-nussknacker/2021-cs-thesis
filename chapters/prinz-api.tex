@@ -1,0 +1,42 @@
+\chapter{Prinz API}
+\label{chap:prinz-api}
+
+This chapter describes the API provided by Prinz. The main goal of the API is to allow developers to add new integrations in a simple and unified way. Each consecutive integration consists of customizable classes that extend traits defined in the API.
+
+\section{ModelSignature}
+\label{sec:model-signature}
+
+The \texttt{ModelSignature} trait describes the correct format of input and output data for a given model. 
+Each signature consists of two lists of \texttt{SignatureField}s - one for the input and one for the output. 
+A \texttt{SignatureField} describes the format of a single column of data. 
+It consists of a \texttt{SignatureName} - the name of the given column and a \texttt{SignatureType} - the type of data in this column, which can be interpreted by Nussknacker.
+
+\subsection{SignatureProvider}
+
+The \texttt{SignatureProvider} trait was created to separate the logic of extracting the signature from a given machine learning model.
+This separation makes the process of accessing the signature customizable for each integration.
+The trait consists of a single function \texttt{SignatureProvider.provideSignature}, which takes one argument: an object representing the location metadata of the signature.
+If a signature can be provided using this metadata, the function returns a \texttt{ModelSignature}.
+In some cases, the integrated tools may use a different typing system than the one available in Nussknacker.
+Therefore, the role of a \texttt{SignatureProvider} is also to translate all types present in the signature to Nussknacker-based ones.
+
+\section{Model and ModelInstance}
+
+The \texttt{Model} trait represents a top-level description of the machine learning model.
+Calling the \texttt{Model.toModelInstance} function returns an instance of this model, which can later be scored using provided data.
+Moreover, through \texttt{Model.getMetadata}, the trait allows access to additional information about the model.
+This information includes the model version, name, and signature.
+
+The \texttt{ModelInstance} trait represents a runnable instance of the machine learning model.
+The scoring proccess is started by calling the \texttt{ModelInstance.run} function.
+This function takes one argument: a multimap containing input data for the model instance.
+The keys of this multimap refer to the column names of the model input signature.
+During the scoring process, the input data is first verified against the model input signature.
+If the input is correctly verifed, the \texttt{ModelInstance.runVerified} function is called.
+This function directly scores each row of data and is entirely implementation-dependent.
+If the whole process finishes without errors, a multimap containing output data is returned.
+The keys of the returned multimap refer to the column names of the model output signature.
+
+\section {ModelRepository}
+
+The  \texttt{ModelRepository} trait provides a consistent way of listing models for each integration. Each instance of a  \texttt{ModelRepository} contains information about the configuration of a given integration. Based on this information, the \texttt{ModelRepository.listModels} function returns a list of all \texttt{Model}s available in this repository. Those models can later be accessed in the Nussknacker UI and scored using provided data.
