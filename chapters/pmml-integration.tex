@@ -32,9 +32,7 @@ PMML is based on XML language. The file is composed of several components such a
 
 \section{PMML Repository}
 
-In \texttt{Prinz} we have used the JPMML library, which is Java’s implementation of the standard. However,
-the standard as well as its implementation, does not provide any systematic way of versioning and serving models.
-
+The standard as well as its \texttt{JMPPL} implementation, does not provide any systematic way of versioning and serving models.
 Thus, we had to design our own way of storing PMML models. One of the project’s key principle was
 to make \texttt{Prinz} open for further integrations and development. To ensure this we have implemented a \texttt{RepositoryClient}.
 A generic api \texttt{AbstractRepositoryClient} provides methods to list files, open them and validate. Then the \texttt{RepositoryClientFactory}
