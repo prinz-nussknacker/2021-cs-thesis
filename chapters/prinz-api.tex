@@ -4,6 +4,8 @@
 This chapter describes the API provided by Prinz.
 The main goal of the API is to allow developers to add new integrations in a simple and unified way.
 Each consecutive integration consists of customizable classes that extend traits defined in the API.
+Traits that have to be implemented in every integration include \texttt{SignatureProvider},  \texttt{Model}, \texttt{ModelInstance}, and \texttt{ModelRepository}.
+Moreover, the optional \texttt{ApiIntegrationSpec} trait includes a convenient way of testing the implemented integration and its use is highly recommended.
 
 \section{ModelSignature}
 \label{sec:model-signature}
@@ -25,6 +27,7 @@ Therefore, the role of a \texttt{SignatureProvider} is also to translate all typ
 \section{Model and ModelInstance}
 
 The \texttt{Model} trait represents a top-level description of the machine learning model.
+It allows access to all necessary information about the machine learning model but is not runnable by itself.
 Calling the \texttt{Model.toModelInstance} function returns an instance of this model, which can later be scored using provided data.
 Moreover, through \texttt{Model.getMetadata}, the trait allows access to additional information about the model.
 This information includes the model version, name, and signature.
@@ -34,6 +37,7 @@ The scoring proccess is started by calling the \texttt{ModelInstance.run} functi
 This function takes one argument: a multimap containing input data for the model instance.
 The keys of this multimap refer to the column names of the model input signature.
 During the scoring process, the input data is first verified against the model input signature.
+The \texttt{ModelInstance.verify} function is predefined, and it checks whether the column names in input data exactly match those present in the signature.
 If the input is correctly verifed, the \texttt{ModelInstance.runVerified} function is called.
 This function directly scores each row of data and is entirely implementation-dependent.
 If the whole process finishes without errors, a multimap containing output data is returned.
@@ -44,4 +48,4 @@ The keys of the returned multimap refer to the column names of the model output 
 The  \texttt{ModelRepository} trait provides a consistent way of listing models for each integration.
 Each instance of a  \texttt{ModelRepository} contains information about the configuration of a given integration.
 Based on this information, the \texttt{ModelRepository.listModels} function returns a list of all \texttt{Model}s available in this repository.
-Those models can later be accessed in the Nussknacker UI and scored using provided data.
+Those models can be accessed in the Nussknacker UI and scored using provided data after compiling the Nussknacker process.
