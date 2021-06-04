@@ -1,0 +1,44 @@
+\chapter{Introduction to Nussknacker and Prinz}
+\label{chap:intro-nussknacker-prinz}
+
+\section{Nussknacker}
+
+Nussknacker is an event-stream processing and decision-making solution developed by TouK, a software house based in Warsaw.
+It's a fully open-source project available on GitHub.
+Nussknacker lets the user design, deploy, and monitor streaming processes through an easy-to-use GUI.
+It's intended as a simple way for non-programmers to write and customize processes.
+The user creates a diagram describing the flow of data from many types of blocks available in the Nussknacker UI (e.g. filters or aggregators).
+The described process can then be tested and run on an Apache Flink cluster.
+
+\subsection{Use cases}
+
+Historically, the initial use case for Nussknacker was Real Time Marketing, or RTM.
+One of TouK's clients had some large data streams, which they intended to use for their marketing campaigns.
+The key here was the ability to process and manipulate the data quickly.
+However, most modern stream processing engines require the user to know a domain-specific programming language.
+Therefore, Nussknacker allowed non-technical users - like analysts or managers to process large amounts of data and draw actionable insights.
+
+Nowadays, the other main use case for Nussknacker is fraud detection, in particular in the telecom business.
+When dealing with some kinds of fraud (e.g. SMS spamming) it's necessary to take instant, automated action.
+Changes to those actions shouldn't each time require additional development.
+It's especially important for companies that might not have an internal programming team.
+In such a case, analysts and other users with little or no programming background can design and monitor the processes themselves using Nussknacker.
+
+\section{Prinz}
+
+Prinz is a library of extensions for Nussknacker.
+It provides a simple API, that allows developers to add new integrations with machine learning engines or repositories.
+At the moment integrations with 3 tools - MLFlow, PMML, and H2O are available in Prinz.
+Prinz integrations are highly configurable - each can provide its way of storing the models and retrieving data from them.
+Each integration includes one or more model repositories.
+When an integration is added to Nussknacker, each model listed in those repositories becomes available in the Nussknacker UI as a block.
+This block can then be integrated into the normal flow of the designed process and for example used as a filter or an aggregator.
+
+
+
+
+
+
+
+
+
