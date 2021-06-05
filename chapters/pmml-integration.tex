@@ -1,0 +1,72 @@
+\chapter{PMML integration}
+\label{chap:pmml}
+
+\section{PMML project overview}
+
+Predictive Model Markup Language is a standard to represent predictive solutions.
+It was developed by Dr. Robert Lee Grossman and the Data Mining Group.
+The main goal was to be able to exchange predictive models produced by data mining
+and machine learning algorithms between applications. The standard is widely spread across the world,
+with over 30 organizations having announced the use of it.\cite{dmgpage}\cite{pmmlpowered}
+
+In our \texttt{Prinz} solution, we are using \texttt{JPMML} library to serve PMML models. \texttt{JPMML} is open-source Java's
+implementation of the PMML standard. This way we are able to support most of the standatd versions, especially latest
+4.0, 4.1, 4.2, 4.3 and 4.4. Modules of the project used in \texttt{Prinz} are \texttt{JPMML-Model},
+\texttt{JPMML-Evaluator} and \texttt{JPMML-Transpiler}. The first one is released under the terms and conditions
+of the BSD 3-Clause "New" or "Revised" License. Model and transpiler are published under GNU Affero General Public License v3.0.
+Therefore, that is the point of such license in pmml's package in our repo.\cite{jpmml}
+
+
+\section{PMMML model representation}
+
+PMML is based on XML language. The file is composed of several components such as:
+\begin{itemize}
+    \item header - contains general information about the document,
+    \item data dictionary - contains definitions for fields used by the model,
+    \item data transformations - maps user data into form used by the mining model,
+    \item model - contains the definition of the data mining model,
+    \item mining schema - list of all fields used in the model. Can be subset of fileds defined in data dictionary,
+    \item targets - allows for post-processing of the predicted value. Can also be used for classification tasks,
+    \item output - allows to name desired output fields expected from the model.
+\end{itemize}
+
+
+\section{PMML Repository}
+
+The standard as well as its \texttt{JMPPL} implementation, does not provide any systematic way of versioning and serving models.
+Thus, we had to design our own way of storing PMML models. One of the project’s key principle was
+to make \texttt{Prinz} open for further integrations and development. To ensure this we have implemented a \texttt{RepositoryClient}.
+A generic api \texttt{AbstractRepositoryClient} provides methods to list files, open them and validate. Then the \texttt{RepositoryClientFactory}
+knows which implementation of client to choose based on URI’s schema. For now, we have supported local filesystem client and http client.
+Working of local file system repository is fairly straightforward. To get http repository to work, a html selector to a files' href elements
+is required. Then if URI leads to html page, \texttt{Prinz} will download the page find the links to PMML files. Otherwise, if URI points
+to PMML file, repository will simply get it.
+
+To integrate a new one, you have to simply implement the abstract api and add one line to factory’s registry.
+
+As mentioned previously, \texttt{PMMLModelRepository} is based on \texttt{RepositoryClient}. By our convention,
+the file name should be composed with model name and model version, separated by separator defined in application’s config.
+For instance, one of the PMML file's name in our GitHub repository is \texttt{PMML-FraudDetection-3-v0-1.pmml}, so it represents
+\texttt{PMML-FraudDetection-3} model in version \texttt{0-1}.
+
+\section{PMML Model and ModelInstance}
+
+\texttt{PMMLModel}s are created based on the data received from scanning the path of the repository.
+\texttt{RepositoryClient} returns payloads, where each of them contains basic information of models and input stream's source of a file.
+Then the actual \texttt{PMMLRepository} creates models’ objects from that data.
+
+\texttt{PMMLModel} holds the model’s name and its version. It is also responsible for providing a signature. The process of prividing the signature will
+be explained in short below.
+
+\texttt{PMMLModelInstance} is using to create \texttt{PrinzEnricher}, which represents a tile on Nussknacker’s flow.
+It is capable of actually running the model and mapping its output to be understood by Nussknacker.
+We can achieve this, using an evaluator from \texttt{JPMML-Evaluator} library and by passing the enricher's input to it.
+The evaluator then takes care of actually running the model and return the result.
+
+\section{PMML Model Signature}
+
+The PMML standard does not provide any separate method of retrieving the signature, rather than reading it from the file.
+To get the input signature and also output signature we are using the previously mentioned evaluator from \texttt{JPMML-Evaluator} library.
+Then \texttt{PMMLSignatureProvider} is converting each field of signature to the definition of fields properly typed in Prinz API
+and parsing types to types supported by Nussknacker.
+We are supporting most of the XMLSchema-2 types.
