@@ -1,0 +1,55 @@
+\chapter{Basic terms}
+\label{chap:basic}
+
+\section{Event streaming processing}
+
+Nussknacer is an example of event streaming process application.
+ESP is taking some actions on a series of data that comes from a system that creates data continuously.
+That action can be a typical data processing functions like aggregations (e.g. summing),
+analytics (e.g. making predictions), transformations (e.g. parsing data), enrichment (e.g. combining data)
+and ingestion (e.g. inserting).
+
+This kind of data processing method is required when we need to take some steps as soon as possible or even predict incoming events.
+Thus, event stream processing is often called real-time processing.
+
+To implement such an application, in general we need to take care of two issues to process a continuous stream of data.
+The first thing is to store incoming data and then process this data using some program.
+One of the most popular technologies to develop ESP is Apache Kafka. We will describe it in the following paragraphs.
+
+Event streaming process is widely used in financial business to process payments, real-time marketing, detect anomalies and frauds.
+Also Internet of Things takes use of ESP to for instance identify radio-frequency identificatio. In most production applications,
+developers use it to monitor processes.
+All of these examples rely on continuously delivered data.\cite{esp}
+
+\section{Apache Flink}
+
+As mentioned above, Apache Flink is one of the most popular event streaming processing technology.
+Flink is an open source project by Apache, that is capable of stream and batch processing. Nussknacker originally started
+as Flink “self-service” process authoring tool and it is still utilized by it as the main processing engine.
+
+In Apache Flink continuous streams are also called unbounded streams and batches - bounded streams.
+While unbounded streams have only defined the beginning of it but no ending, the bounded ones have both start and end.
+To process continuous streams, we often require it to be in specific order, such as the timestamp of the event.
+On the other hand, if we are processing batches, we have full set of data, so we can sort it on our own.
+
+Apache Flink is built in such a way to be easily run at any scale. Applications are parallelized into tasks,
+which are distributed and concurrently executed in a cluster.
+Flink is capable of maintaining a very large application state by utilizing its asynchronous and incremental checkpointing algorithm.
+Use of them ensures minimal impact on processing latencies, however it guarantees exactly-once state consistency.\cite{flink}
+
+\section{Fraud detection}
+
+OVer the last decades increasing amount of financial transactions via the Internet, creates more opportunities for
+criminals and daily users to try to hack the shopping systems.
+The value of the global E-Commerce market is estimated to reach \$4.9 trillion in this year.
+According to the Internet Crime Complaint Center, internet crimes in the year 2019 was highest ever by then.
+People and businesses lost almost \$3.5 billion more than in 2018. We can categorize internet fraud
+in some categories like: payment fraud, identity theft, document forgery and account takeover.
+
+Machine learning can perfectly address this issue. Due to enormous quantity of financial transactions,
+data analysts  have enough data to train ML models and teach them pattern of internet frauds.
+Machine learning is generally faster and more efficient than traditional algorithms.
+Because E-Commerce is such a dynamic environment, data scientins would have to constantly adjust traditional
+algorithms, unlike machine learning models ability to easily and self-adapt.
+Models also take over repetitive and monitonic work of detecting the frauds manually.
+Also machine learning is more scalable, meaning - the more samples we fit the model with, the better it gets.\cite{frauds}
