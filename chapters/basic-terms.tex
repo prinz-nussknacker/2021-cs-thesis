@@ -16,8 +16,9 @@ To implement such an application, in general we need to take care of two issues 
 The first thing is to store incoming data and then process this data using some program.
 One of the most popular technologies to develop ESP is Apache Kafka. We will describe it in the following paragraphs.
 
-Some sample use cases of the event streaming process are payment processing, anomaly detection.
-Nussknacker is mostly used to detect fraud, real-time marketing and quality monitoring.
+Event streaming process is widely used in financial business to process payments, real-time marketing, detect anomalies and frauds.
+Also Internet of Things takes use of ESP to for instance identify radio-frequency identificatio. In most production applications,
+developers use it to monitor processes.
 All of these examples rely on continuously delivered data.\cite{esp}
 
 \section{Apache Flink}
@@ -38,7 +39,8 @@ Use of them ensures minimal impact on processing latencies, however it guarantee
 
 \section{Fraud detection}
 
-As people buy more and more on the Internet, this creates more and more opportunities for criminals.
+OVer the last decades increasing amount of financial transactions via the Internet, creates more opportunities for
+criminals and daily users to try to hack the shopping systems.
 The value of the global E-Commerce market is estimated to reach \$4.9 trillion in this year.
 According to the Internet Crime Complaint Center, internet crimes in the year 2019 was highest ever by then.
 People and businesses lost almost \$3.5 billion more than in 2018. We can categorize internet fraud
@@ -47,4 +49,6 @@ in some categories like: payment fraud, identity theft, document forgery and acc
 Machine learning can perfectly address this issue. Due to enormous quantity of financial transactions,
 data analysts  have enough data to train ML models and teach them pattern of internet frauds.
 Machine learning is generally faster and more efficient than traditional algorithms.
+Because E-Commerce is such a dynamic environment, data scientins would have to constantly adjust traditional
+algorithms, unlike machine learning models ability to easily and self-adapt.
 Also machine learning is more scalable, meaning - the more samples we fit the model with, the better it gets.\cite{frauds}
