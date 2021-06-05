@@ -14,7 +14,7 @@ Thus, event stream processing is often called real-time processing.
 
 To implement such an application, in general we need to take care of two issues to process a continuous stream of data.
 The first thing is to store incoming data and then process this data using some program.
-One of the most popular technologies to develop ESP is Apache Kafka. We will describe it in some details shortly.
+One of the most popular technologies to develop ESP is Apache Kafka. We will describe it in the following paragraphs.
 
 Some sample use cases of the event streaming process are payment processing, anomaly detection.
 Nussknacker is mostly used to detect fraud, real-time marketing and quality monitoring.
@@ -22,12 +22,11 @@ All of these examples rely on continuously delivered data.\cite{esp}
 
 \section{Apache Flink}
 
-As we mentioned above, Apache Flink is one of the most popular event streaming processing technology.
+As mentioned above, Apache Flink is one of the most popular event streaming processing technology.
 Flink is an open source project by Apache, that is capable of stream and batch processing. Nussknacker originally started
 as Flink “self-service” process authoring tool and it is still utilized by it as the main processing engine.
 
-We have already described stream processing, so now let’s take a quick look at the batching and compare them.
-In Apache Flink continuous streams are also called unbounded streams and batches -  bounded streams.
+In Apache Flink continuous streams are also called unbounded streams and batches - bounded streams.
 While unbounded streams have only defined the beginning of it but no ending, the bounded ones have both start and end.
 To process continuous streams, we often require it to be in specific order, such as the timestamp of the event.
 On the other hand, if we are processing batches, we have full set of data, so we can sort it on our own.
@@ -45,7 +44,7 @@ According to the Internet Crime Complaint Center, internet crimes in the year 20
 People and businesses lost almost \$3.5 billion more than in 2018. We can categorize internet fraud
 in some categories like: payment fraud, identity theft, document forgery and account takeover.
 
-Machine Learning can perfectly address this issue. Due to enormous quantity of financial transactions,
+Machine learning can perfectly address this issue. Due to enormous quantity of financial transactions,
 data analysts  have enough data to train ML models and teach them pattern of internet frauds.
-ML is generally faster and more efficient than traditional algorithms.
-Also Machine Learning is more scalable, meaning - the more samples we fit the model with, the better it gets.\cite{frauds}
+Machine learning is generally faster and more efficient than traditional algorithms.
+Also machine learning is more scalable, meaning - the more samples we fit the model with, the better it gets.\cite{frauds}
