@@ -13,7 +13,6 @@ Its directory structure is presented below with short descriptions of selected n
   }
 
   \vspace{1em}
-  \todo[inline]{Revisit in June 2021. Filler content for now.}
   \begin{forest}
     for tree={
       grow'=0,
@@ -36,10 +35,27 @@ Its directory structure is presented below with short descriptions of selected n
     }
   [{}
     [\nodewithdesc{.github}{GitHub automation definitions}]
-    [\node{dev-environment}
-      [\nodewithdesc{docker-compose.yaml}{Definition of the development environment}]
+    [\nodewithdesc{dev-environment}{Development environment configuration and specifications}]
+    [\nodewithdesc{docs}{Sources of documentation pages}]
+    [\nodewithdesc{prinz}{Prinz API specification}]
+    [\nodewithdesc{prinz_h2o}{Implementation of H2O integration}]
+    [\nodewithdesc{prinz_mlflow}{Implementation of MLflow integration}]
+    [\nodewithdesc{prinz_pmml}{Implementation of PMML integration}]
+    [\nodewithdesc{prinz_proxy}{Implementation of models proxying}]
+    [\nodewithdesc{prinz_sample}{Example Prinz library usage}]
+    [\nodewithdesc{priz_util}{Utility HTTP client}]
+    [\node{project}
+      [\node{build.properties}]
+      [\node{plugins.sbt}]
+      [\node{scalastyle_config.xml}]
+      [\node{scalastyle_test_config.xml}]
     ]
+    [\nodewithdesc{.env}{Environment constants defitnition}]
+    [\node{.gitignore}]
+    [\node{LICENSE}]
     [\node{README.md}]
+    [\nodewithdesc{build.sbt}{Scala project definition with dependencies}]
+    [\nodewithdesc{sbtwrapper}{sbt standalone compile script}]
   ]
   \end{forest}
 }
