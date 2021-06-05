@@ -3,6 +3,7 @@
 
 Attached CD contains snapshot of the repository.
 Its directory structure is presented below with short descriptions of selected nodes.
+\newpage
 
 {
   \newcommand{\node}[1]{
@@ -13,7 +14,6 @@ Its directory structure is presented below with short descriptions of selected n
   }
 
   \vspace{1em}
-  \todo[inline]{Revisit in June 2021. Filler content for now.}
   \begin{forest}
     for tree={
       grow'=0,
@@ -36,10 +36,35 @@ Its directory structure is presented below with short descriptions of selected n
     }
   [{}
     [\nodewithdesc{.github}{GitHub automation definitions}]
-    [\node{dev-environment}
-      [\nodewithdesc{docker-compose.yaml}{Definition of the development environment}]
+    [\nodewithdesc{dev-environment}{Development environment configuration and specifications}
+      [\node{README.md}]
+      [\node{clear\_environment.sh}]
+      [\node{create\_environment.sh}]
+      [\nodewithdesc{docker-compose-env.yaml}{Configuration of Nussknacker environment}]
+      [\nodewithdesc{docker-compose-h2o.yaml}{Configuration of H2O environment}]
+      [\nodewithdesc{docker-compose-mlflow.yaml}{Configuration of MLflow environment}]
+      [\nodewithdesc{docker-compose-pmml.yaml}{Configuration of PMML environment}]
     ]
+    [\nodewithdesc{docs}{Sources of documentation pages}]
+    [\nodewithdesc{prinz}{Prinz API specification}]
+    [\nodewithdesc{prinz\_h2o}{Implementation of H2O integration}]
+    [\nodewithdesc{prinz\_mlflow}{Implementation of MLflow integration}]
+    [\nodewithdesc{prinz\_pmml}{Implementation of PMML integration}]
+    [\nodewithdesc{prinz\_proxy}{Implementation of models proxying}]
+    [\nodewithdesc{prinz\_sample}{Example Prinz library usage}]
+    [\nodewithdesc{priz\_util}{Utility HTTP client}]
+    [\node{project}
+      [\node{build.properties}]
+      [\node{plugins.sbt}]
+      [\node{scalastyle\_config.xml}]
+      [\node{scalastyle\_test\_config.xml}]
+    ]
+    [\nodewithdesc{.env}{Environment constants defitnition}]
+    [\node{.gitignore}]
+    [\node{LICENSE}]
     [\node{README.md}]
+    [\nodewithdesc{build.sbt}{Scala project definition with dependencies}]
+    [\nodewithdesc{sbtwrapper}{sbt standalone compile script}]
   ]
   \end{forest}
 }
