@@ -1,5 +1,13 @@
 \documentclass[licencjacka,en]{pracamgr}
 
+% Custom imports
+\usepackage{forest}
+\usepackage[unicode]{hyperref}
+\usepackage{todonotes}
+\usepackage{tikz}
+\usepackage{acmart}
+% End of custom imports
+
 \autor{Krzysztof Antoniak}{358985}
 \autori{Michał Jadwiszczak}{406163}
 \autorii{Jan Kukowski}{406204}
@@ -22,7 +30,7 @@
 % ACM
 \klasyfikacja{
 	\begin{CCSXML}
-	<ccs2012>
+	    <ccs2012>
 		<concept>
 			<concept_id>10011007.10011074.10011784</concept_id>
 			<concept_desc>Software and its engineering~Search-based software engineering</concept_desc>
@@ -35,13 +43,6 @@
 }
 
 \keywords{\input{title-page/keywords-en.tex}}
-
-% Custom imports
-\usepackage{forest}
-\usepackage[unicode]{hyperref}
-\usepackage{todonotes}
-\usepackage{tikz}
-% End of custom imports
 
 % Custom definitions
 \newtheorem{definition}{Definition}[section]
