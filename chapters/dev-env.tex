@@ -12,7 +12,7 @@ from scratch.
 The base for configuration for the environment is made of the .env file which contains the environment
 constant variables’ definitions and allows easily changing the ports of services and some paths in
 Docker images that can be configured. This file is loaded also by the sbt which is then able to work
-with the same environment for the purpose of integration tests that use the Docker services to test
+with the same environment for integration tests that use the Docker services to test
 every integration.
 
 The process of creating the new environment comes to running a single bash script from the \texttt{dev-environment}
@@ -20,17 +20,17 @@ which allows configuring the build process with additional flags specified for s
 a possibility to run only a single integration environment (e.g. only MLflow server repository with its
 environment) or to exclude the process of library recompilation before placing it in the Nussknacker image.
 All these improvements were added during the process of adding new integrations as we found it annoying
-to spend a lot of time waiting for some part of the environment which wasn’t actually needed to test
-and experiment with another integration. Additionally we created the extra bash script for cleaning
+to spend a lot of time waiting for some part of the environment that wasn’t needed to test
+and experiment with another integration. Additionally, we created the extra bash script for cleaning
 the environment cached data as discovered to take a lot of disc space when having so many different
 integrations with their environments in a single project.
 
-Every integration has its own \texttt{docker-compose} configuration file which specifies the Docker services
+Every integration has its \texttt{docker-compose} configuration file which specifies the Docker services
 needed to run the integration environment. Additionally, there is a separate configuration named env
-for Nussknacker image with its own services, where the compiled Prinz library is placed. Thanks to
+for Nussknacker image with its services, where the compiled Prinz library is placed. Thanks to
 such an approach it is easier to set up every environment separately and run only the needed ones.
-However this also makes it a little harder to allow communication between every environment - we need
-to manually add the Docker network to which the set up environments are connected during creation
+However, this also makes it a little harder to allow communication between every environment - we need
+to manually add the Docker network to which the setup environments are connected during creation
 time and then can communicate easily. Moreover, we decided not to expose every integration port for
 external services for the other integrations and Nussknacker environment but create a single proxy
 server for each integration which works as a barrier between the integration implementation details
@@ -38,60 +38,53 @@ and the outside world (and then the environment works more like in real life sce
 
 The Docker images for each integration needs extra dependencies which are managed using the \texttt{conda}
 environment manager. There is quite a lot of work to be done by installing all of them separately
-so we decided to create the Docker images for integration and publish it in the external Docker
+so we decided to create the Docker images for integration and publish them in the external Docker
 images repository. We decided to use the GitHub images hub which allows us to publish the images
 as a part of our open-source project but unfortunately forces the user to log to GitHub before
-downloading the image. However, this GitHub policy can change in the near future as the community
+downloading the image. However, this GitHub policy can change shortly as the community
 doesn’t seem to like the logging requirement and there are many open discussions on this topic.
 
-\section{Models serving in the environment}
+\section{Models serving in environment}
 
 Every integration includes individual ways of models creating and serving them after the training process:
 
 \begin{itemize}
-	\item MLflow models are trained after creating the models registry environment and then served as
-	Docker services from the same Docker image. Their specification is saved on a separate PostgreSQL
-	database and the signatures are kept on the S3 storage provided by the Minio Docker image. This setup
-	makes the prepared environment behave like a production version of MLflow server because there is no
-	usage of local storage for data keeping.
+    \item MLflow models are trained after creating the models' registry environment and then served as
+    Docker services from the same Docker image. Their specification is saved on a separate PostgreSQL database and the signatures are kept on the S3 storage provided by the Minio Docker image. This setup
+    makes the prepared environment behave like a production version of the MLflow server because there is no
+    usage of local storage for data-keeping.
 
-	\item PMML models are exported as the XML files during training on image start and served as the files
-	by the HTTP little server written in Python. This approach uses the PMML Python dependencies only during
-	training time as there is no alternative for  models management server in case of PMML models representation.
-	The models in our approach have to be listed in a specific way to give the developers ability to
-	automatically find their locations with the proper selector path which specifies the models’ refs on the
-	main site of the server and is configurable in Prinz.
+    \item PMML models are exported as the XML files during training on image start and served as the files by the HTTP little server written in Python. This approach uses the PMML Python dependencies only during
+    training time as there is no alternative for models management server in case of PMML models representation.
+    The models in our approach have to be listed in a specific way to give the developers ability to
+    automatically find their locations with the proper selector path which specifies the models’ refs on the
+    main site of the server and is configurable in Prinz.
 
-	\item H2O server is somehow between the MLflow and the PMML integration as it sets up a full models
-	registry server during training time and has the ability to list models and serve them with the usage
-	of REST API. However in our case the simpler approach to H2O models was chosen and after training the
-	models they are saved as the standard MOJO files and then leaded by the Prinz library as the local
-	scoring models. Here we leave some room for future integrations as there is also a possibility to
-	score the H2O models on the side of the H2O server like in the case of MLflow registry.
+    \item H2O server is somehow between the MLflow and the PMML integration as it sets up a full models registry server during training time and can list models and serve them with the usage of REST API. However, in our case, the simpler approach to H2O models was chosen and after training the models they are saved as the standard MOJO files and then led by the Prinz library as the local scoring models. Here we leave some room for future integrations as there is also a possibility to score the H2O models on the side of the H2O server like in the case of the MLflow registry.
 \end{itemize}
 
 \section{Proxying models environments}
 
-For each integration we created a separate proxy server based on light nginx alpine Docker image which
+For each integration, we created a separate proxy server based on light nginx alpine Docker image which
 is set up with only a single configuration file having needed specifications. In the case of MLflow
-integration we tried to simulate the real world scenario usage of MLflow registry by manually setting
-the proxy configuration connected with the buffering the data and setting some custom requests’ headers.
-In the other integration the served models as the XML and MOJO files are only proxied with the change of
+integration, we tried to simulate the real-world scenario usage of the MLflow registry by manually setting
+the proxy configuration connected with the buffering of the data and setting some custom requests’ headers.
+In the other integration, the served models as the XML and MOJO files are only proxied with the change of
 the port on which they are available to the user.
 
-Furthermore, for each integration the proxy also serves a few static files which contain the data needed
-in the phase of integration tests. It is responsible for serving like some simple REST API server which
+Furthermore, for each integration, the proxy also serves a few static files which contain the data needed
+in the phase of integration tests. It is responsible for serving like some simple REST API server that
 is capable of providing extra inputs for models in specific phases of library tests.
 
 \section{Development environment in integration tests}
 
 Each integration runs separately the integration tests which was one of the main reasons to separate
-the environment configurations to a few files. During the tests phase there is a need to know the project
+the environment configurations into a few files. During the tests phase there is a need to know the project
 root file in the filesystem to locate these configuration files so before running any integration test
 the user has to define the \texttt{REPOSITORY\_ABSOLUTE\_ROOT} environment variable. After this initial
 configuration running tests from the console is as simple as calling a single sbt command as the whole
-environment configuration is loaded with the sbt plugin from the \texttt{.env} file. However, in the case of need
-to run tests from an IDE we need to specify separately the \texttt{.env} file in test run configuration as for now
+environment configuration is loaded with the sbt plugin from the \texttt{.env} file. However, in the case of the need
+to run tests from an IDE, we need to specify separately the \texttt{.env} file in the test run configuration as for now
 there is no possibility to load this information automatically in the IDE.
 
 The testing phase includes testing the integration part e.i. scoring the models available in integration
@@ -111,7 +104,7 @@ and verify some specified parts of code without the process of working with any 
 \section{Development environment scheme}
 
 The overview scheme of described development environment is presented below. It shows the scheme of
-working with models via Nussknacker's frontend down to models listing and scoring models instances.
+working with models via Nussknacker's frontend down to models listing and scoring models' instances.
 
 \newpage
 \scalebox{0.9}{\input{chapters/extras/dev-env-scheme.tex}}

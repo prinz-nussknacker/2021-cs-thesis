@@ -1,0 +1,83 @@
+\chapter{H2O integration}
+\label{chap:h2o}
+
+\section{Introduction}
+
+H2O is one of the leading machine learning platforms.
+It features an open-source server with in-memory implementations of multiple popular algorithms.
+Users can access the server through hosted visual notebooks or using multiple programming languages, including R and Python.
+AutoML functionality helps to automatically select matching model types for provided datasets.
+Created models can be deployed as
+POJOs\footnote{POJO -- \emph{Plain Old Java Object}}
+or MOJOs\footnote{MOJO -- \emph{Model Object, Optimized} -- is an alternative storage standard by H2O.ai.}
+for scoring.
+
+H2O.ai, the company behind H2O, created the platform to democratize access to AI solutions.
+Its multiple products are fully open source, while the company provides paid enterprise support.
+With over 12000 customers in different industries, H2O.ai was classified as a Visionary in Gartner 2021 Quadrant for Data Science and Machine Learning, surpassing companies like Google and Microsoft in terms of \emph{Completeness of vision}.
+
+\section{H2O in Prinz environment}
+
+H2O provides both a server endpoint and a set of Java libraries for automated scoring based on deployment files.
+We chose to load files directly and score them in memory by libraries, mainly because of an open license (Apache 2.0.) and compatibility between Java and Scala languages.
+To score incoming data, our implementation performs the following steps:
+\begin{enumerate}
+  \item load model, from memory, file or URL,
+  \item map Nussknacker types to H2O types (\texttt{String} or \texttt{Double}),
+  \item convert incoming data to rows,
+  \item score rows individually,
+  \item extract output values and retype outputs for Nussknacker,
+  \item gather results.
+\end{enumerate}
+This approach creates a few challenges, described in the following sections.
+
+\section{Loading models}
+
+When creating a model, H2O outputs POJO or MOJO files which can be downloaded by the user.
+The scoring library needs to know the file type and how to acquire its data.
+Since Nussknacker UI displays all exposed models, it needs to know about them when creating enrichers in the configuration phase.
+
+We chose MOJO as a supported type.
+POJO seems to be a predecessor format with limitations on file size and worse performance.
+While the company will support POJO files, MOJO is the recommended file format \cite{h2o-mojo-over-pojo}.
+
+As for locating data, there is no standard for discovering models.
+One approach could be to download models directly from the H2O server, but this defeats the purpose of using small, portable files.
+This also prevents infrastructure setups without an exposed server.
+
+For simplicity and coherence, we opted for a custom server implementation based on the same interface as in PMML integration.
+Any repository client implements methods for listing and accessing files.
+Built-in implementations allow for using files from a local directory or loading a list of URLs from a remote endpoint.
+For details on PMML implementation, see section \ref{sec:pmml-repository}.
+
+\section{Extracting signatures}
+
+General properties of the model (like name or version) can be provided by the repository as in the case of the PMML repository.
+All metadata about the model contents is described inside deployment files.
+Because of this, we have to load all file models when loading configuration, even if a particular model won't be used.
+On the flip side, H2O libraries have full knowledge of the model and can provide names and types of inputs and outputs without any further analysis.
+
+\section{Scoring models}
+
+At this point, Prinz does not support entry batching, but internal API operates on sets of rows.
+H2O libraries can score only single rows, so sets have to be ungrouped into single rows, scored, and then grouped back.
+The input data for scoring models has to be converted before evaluating the H2O model instance. This step is needed as
+in the whole flow of data inside Nussknacker, the \texttt{}{String} values don't have extra quotes while the H2O needs to
+have the non-numerical input data enclosed in extra quotes.
+
+The result of scoring is a \emph{prediction}, with exact representation depending on type of the model.
+H2O supports some other types of algorithms beyond traditional ML models.
+Predictions have to been transformed to extract output values for Nussknacker.
+Currently supported types are:
+\begin{multicols}{2}
+\begin{itemize}
+  \item \texttt{AnomalyDetection},
+  \item \texttt{Binomial},
+  \item \texttt{Clustering},
+  \item \texttt{CoxPH},
+  \item \texttt{KLime},
+  \item \texttt{Multinomial},
+  \item \texttt{Ordinal},
+  \item \texttt{Regression}.
+\end{itemize}
+\end{multicols}

@@ -1,5 +1,13 @@
 \documentclass[licencjacka,en]{pracamgr}
 
+% Custom imports
+\usepackage{forest}
+\usepackage[unicode]{hyperref}
+\usepackage{todonotes}
+\usepackage{tikz}
+\usepackage{multicol}
+% End of custom imports
+
 \autor{Krzysztof Antoniak}{358985}
 \autori{Michał Jadwiszczak}{406163}
 \autorii{Jan Kukowski}{406204}
@@ -21,17 +29,10 @@
 
 % ACM
 \klasyfikacja{
-  \todo[inline]{Select codes from \href{https://dl.acm.org/ccs}{ACM Computing Classification System}}
+	Software and its engineering -- Search-based software engineering
 }
 
 \keywords{\input{title-page/keywords-en.tex}}
-
-% Custom imports
-\usepackage{forest}
-\usepackage[unicode]{hyperref}
-\usepackage{todonotes}
-\usepackage{tikz}
-% End of custom imports
 
 % Custom definitions
 \newtheorem{definition}{Definition}[section]
@@ -65,10 +66,11 @@
 \input{chapters/intro-nussknacker-prinz.tex}
 \input{chapters/basic-terms.tex}
 \input{chapters/architecture-overview.tex}
+\input{chapters/prinz-api.tex}
 \input{chapters/mlflow-integration.tex}
 \input{chapters/pmml-integration.tex}
+\input{chapters/h2o-integration.tex}
 \input{chapters/dev-env.tex}
-\input{chapters/prinz-api.tex}
 \input{chapters/project-development.tex}
 \input{chapters/responsibilities.tex}
 
