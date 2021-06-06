@@ -3,30 +3,26 @@
 
 \section{MLflow project overview}
 
-MLflow is an open source project which allows managing the whole machine learning lifecycle.
-It includes experimentation, deployment and reproducibility of models as well as a central registry
+MLflow is an open-source project which allows managing the whole machine learning lifecycle.
+It includes experimentation, deployment, and reproducibility of models as well as a central registry
 for versioning trained models. It was proposed by the Databricks team working with hundreds of companies
 using machine learning as a solution to common production problems when working with machine learning
 models and their deployment.\cite{mlflowpage}
 
-The whole MLflow platform was inspired by existing solutions from Facebook, Google and Uber which
+The whole MLflow platform was inspired by existing solutions from Facebook, Google, and Uber which
 seem to be limited because they support only a small set of built-in algorithms or a single library,
-and they are strictly connected to each company’s infrastructure. They don’t allow to easily use of new
+and they are strictly connected to each company’s infrastructure. They don’t allow easy use of new
 machine learning libraries and share the results of work with an open community.\cite{mlflowarticle}
 
 MLflow was designed to be an open solution in two senses:
 
 \begin{itemize}
-	\item open source: it is an open source library publicly available that can be easily adapted
-	by users and extended to expected form. Additionally, MLflow format makes it easy to share
-	the whole workflow and models from one organization to another if you wish to share your
-	code with collaborators.
+    \item open source: it is an open-source library publicly available that can be easily adapted
+    by users and extended to the expected form. Additionally, the MLflow format makes it easy to share
+    the whole workflow and models from one organization to another if you wish to share your
+    code with collaborators.
 
-	\item open interface: it is designed to work with many already available tools, machine learning
-	libraries, implemented libraries and algorithms. It’s built using the REST APIs and readable data
-	formats where for example a machine learning model can be seen as a single lambda function called
-	on model evaluation. It was designed to be easily introduced to existing machine learning projects
-	so the users can benefit from it immediately.
+    \item open interface: it is designed to work with many already available tools, machine learning libraries, implemented libraries, and algorithms. It’s built using the REST APIs and readable data formats where for example a machine learning model can be seen as a single lambda function called on model evaluation. It was designed to be easily introduced to existing machine learning projects so the users can benefit from it immediately.
 \end{itemize}
 
 \section{Trained models management}
@@ -34,9 +30,9 @@ MLflow was designed to be an open solution in two senses:
 MLflow allows users to use existing models and easily convert them to open interface format.
 When working with the MLflow framework we used the Python language for creating some Machine
 Learning models for test purposes using the sklearn framework which is one of the many frameworks
-supported by MLflow. Then the pretrained models were imported to MLflow repository which saved
+supported by MLflow. Then the pre-trained models were imported to the MLflow repository which saved
 their state in an external database and some data storage server that was responsible for keeping
-the artefacts from training. In practice, the artefacts' data that was useful in our case was the
+the artifacts from training. In practice, the artifacts' data that was useful in our case was the
 signature of the model which was exported to YAML file format.
 
 The training process of used models was short enough that we can train the models every time the
@@ -48,50 +44,49 @@ the difference between the clean environment and the environment with trained mo
 
 MLflow allows to deploy the trained models from its registry in a few ways including:
 \begin{itemize}
-	\item deploying \texttt{python\_function} model to Microsoft Azure ML
-	\item deploying \texttt{python\_function} model to Amazon SageMaker
-	\item exporting \texttt{python\_function} as an ApacheSpark UDF
-	\item exporting a REST API endpoint serving the model as a docker image
-	\item deploying the model as a REST API local server
+    \item deploying \texttt{python\_function} model to Microsoft Azure ML
+    \item deploying \texttt{python\_function} model to Amazon SageMaker
+    \item exporting \texttt{python\_function} as an ApacheSpark UDF
+    \item exporting a REST API endpoint serving the model as a docker image
+    \item deploying the model as a REST API local server
 \end{itemize}
 
 Using any of these approaches may be easier or harder to deploy in practice depending on the architecture
 that we already work with and the resources that can be used for the deployment process. Managing the local
-REST API server is the easiest solution while it doesn’t scale up with the number of models. When the
-developers take care about the environment, and it’s really hard to set up a fresh, clean environment
+The REST API server is the easiest solution while it doesn’t scale up with the number of models. When the
+developers take care of the environment, and it’s really hard to set up a fresh, clean environment
 from scratch it’s better to manage the models using separated Docker containers (which deployment
 process can additionally be easily automated).\cite{mlflowdoc}
 
-In our environment the models after training are served as a local REST API in Docker image with MLflow
-server inside where they have ports exposed for external usage. With this approach we can clean the
-environment on every setup of integration tests of the library, download fresh, prepared images and
+In our environment, the models after training are served as a local REST API in Docker image with MLflow
+the server inside where they have ports exposed for external usage. With this approach, we can clean the environment on every setup of integration tests of the library, download fresh, prepared images, and
 train the prepared models, which are then stored in MLflow clean database and S3 storage (that are
 prepared as separate Docker images).
 
 \section{MLflow Repository}
 
 Configured MLflow server used in our environment model serves as the model registry which takes care
-about model versioning and serving the base models' information using the REST API. As there is no
-implementation for Scala (and Java) language for this REST API, we have created our own implementation
-of the provided API with the usage of high level HTTP client library named \texttt{sttp} written by SoftwareMill
+of model versioning and serving the base models' information using the REST API. As there is no
+implementation for Scala (and Java) language for this REST API, we have created our implementation
+of the provided API with the usage of a high-level HTTP client library named \texttt{sttp} written by SoftwareMill
 and the model objects serializer called \texttt{circe} powered by Cats. These two libraries allow us to create
 the model corresponding to the official MLflow documentation which could be easily integrated with the
-current version of MLflow models repository.
+current version of the MLflow models repository.
 
-The whole model of data served by MLflow models registry server is provided in JSON format, for which
-we managed to create corresponding models in code with the usage of compile time code analysis with
-the Scala macros sbt plugin. In this approach it was enough to create the case classes with proper
-fields to get automatic conversion between the received text data in JSON format and the objects
-model in programming language. The whole process is based on JsonCondec code annotation which allows
-to preprocess case classes in Scala in compile time and generate the Encoder and Decoder objects
-implementations for the annotated class. In the standard approach the developer would have to manually
+The whole model of data served by the MLflow models' registry server is provided in JSON format, for which
+we managed to create corresponding models in code with the usage of compile-time code analysis with
+the Scala macros sbt plugin. In this approach, it was enough to create the case classes with proper
+fields to get the automatic conversion between the received text data in JSON format and the objects
+model in the programming language. The whole process is based on JsonCondec code annotation which allows
+to preprocess case classes in Scala in compile-time and generate the Encoder and Decoder objects
+implementations for the annotated class. In the standard approach, the developer would have to manually
 write this code which would just translate the JSON fields to object’s fields and vice versa while
 this can be in most cases done automatically.
 
 \section{MLflow Model and ModelInstance}
 
 MLflow model is instantiated based on the data received and parsed in JSON format from MLflow models
-registry and the signature data located in artefact storage of model. The signature data is parsed
+registry and the signature data located in artifact storage of model. The signature data is parsed
 separately from a YAML formatted file which is also mapped to \texttt{JsonCodec} model class with auto Encoder/Decoder
 mechanism.
 
@@ -100,7 +95,7 @@ sent to the external model service is done by the MLflow model instance during t
 We created the abstract of Dataframe which corresponds to the single input for the model. When typed input
 data comes from another Nussknacker service to the Prinz MLflow implementation, it has to be manually
 converted to the valid JSON format, which can be determined based on the signature of the model. In the
-runtime of the process the library receives the data in a unified format of type Any which then has to
+runtime of the process, the library receives the data in a unified format of type Any which then has to
 be recognized and parsed before creating the input frame for the model. MLflow served models support two
 types of JSON data providing named split and record orientations for compatibility and easier work with
 different types of input data. In our model we use only a single approach of Dataframe to JSON conversion
@@ -112,21 +107,21 @@ for this single type of implementation.
 
 \section{MLflow Model Signature}
 
-MLflow model signature is basically not a necessary part of a model registered in the models registry
-provided by MLflow library. In our approach to the problem we assume that every user of our library
-should save the models in the registry in the way which includes steps creating the model signature.
+MLflow model signature is not a necessary part of a model registered in the models' registry
+provided by the MLflow library. In our approach to the problem, we assume that every user of our library
+should save the models in the registry in a way that includes steps in creating the model signature.
 We found this way of typing the model input and output as the easiest one because the final user of
 Nussknacker doesn’t have to know anything about model implementation (when it was logged to the registry
-with a signature). Additionally creating the model with typed signature ensures the user that only the
-valid input will be allowed for model input (which is not so obvious while the most of the models management
+with a signature). Additionally creating the model with a typed signature ensures the user that only the
+valid input will be allowed for model input (which is not so obvious while most of the model management
 on the MLflow side is done with Python that hasn’t the static typing). However, creating the signature
-for MLflow models in Python has a single drawback e.i. the model output doesn’t have any names and are
+for MLflow models in Python has a single drawback e.i. the model output doesn’t have any names and is
 given as the ordered list in the JSON response. We manually create the additional labels for model outputs
 in the process of scoring with the following outputs named \texttt{output\_0}, \texttt{output\_1} etc. Thanks to this
-approach the final user of the Nussknacker GUI can configure the model in an easier way but still he has
+approach the final user of the Nussknacker GUI can configure the model more easily but still, he has
 to know the mapping between the interesting data and its order in the output model map.
 
-It’s worth noting that the saved model signature in case of MLflow models is stored on external data
-service like Amazon S3 data storage which seems to be the default choice of users of MLflow library.
-In Prinz we implemented accessing the models’ signatures located only on S3 storage and here we see
+It’s worth noting that the saved model signature in the case of MLflow models is stored on external data
+services like Amazon S3 data storage which seems to be the default choice of users of the MLflow library.
+In Prinz, we implemented accessing the models’ signatures located only on S3 storage and here we see
 the place for future improvements to provide some more generic approach of fetching the signature data.

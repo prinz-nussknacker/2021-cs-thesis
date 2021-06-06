@@ -1,13 +1,13 @@
 \chapter{Architecture overview}
 \label{chap:arch}
 
-This chapter describes Prinz approach to integrating different tools with Nussknacker.
+This chapter describes Prinz's approach to integrating different tools with Nussknacker.
 We will discuss our intermediate model representation in a typical process deployment.
 
-Prinz extensions are injected to a Nussknacker instance in the configuration phase.
-Instance administrator should configure model repositories which discover and provide model instances.
+Prinz extensions are injected into a Nussknacker instance in the configuration phase.
+Instance administrator should configure model repositories that discover and provide model instances.
 Each model is interpreted and exposed to Nussknacker UI as an enricher.
-When Nussknacker process is deployed, Prinz translates parameters for the external model, delegates scoring and brings results back to the process.
+When the Nussknacker process is deployed, Prinz translates parameters for the external model, delegates scoring, and brings results back to the process.
 
 \section{Model discovery}
 
@@ -16,24 +16,24 @@ Repositories handle listing models available in configured storage.
 Successful exchange with storage results in a list of model handles, which will be converted to enrichers.
 
 Prinz comes with ready-to-use implementations using local filesystem or HTTP endpoint.
-HTTP server is expected to expose list of models as JSON.
+The HTTP server is expected to expose a list of models as JSON.
 Developers can provide custom implementations of \texttt{ModelRepository}.
 
 \section{Models}
 
-Prinz uses an intermediate internal model representiation for unified handling of integrations.
+Prinz uses an intermediate internal model representation for unified handling of integrations.
 \texttt{Model} trait represents a single entry in the Nussknacker UI.
 Model is identified by name and may contain version info.
-For some integrations it is possible to fetch metadata without loading the whole model.
+For some integrations, it is possible to fetch metadata without loading the whole model.
 
 By calling \texttt{Model.toModelInstance} system instantiates the model.
 Exact behavior is implementation dependent, but this call should:
 \begin{itemize}
-	\item prepare model for signature extraction,
-	\item prepare model for scoring.
+    \item prepare model for signature extraction,
+    \item prepare model for scoring.
 \end{itemize}
-Operation may require additional communication with the service.
-At this point model would usually get loaded into memory if it is needed.
+The operation may require additional communication with the service.
+At this point, model would usually get loaded into memory if it is needed.
 
 \subsection{Signatures}
 
@@ -53,8 +53,8 @@ When computation reaches a Prinz enricher, it triggers scoring for supplied inpu
 Scoring starts by calling \texttt{run} on a \texttt{PrinzEnricher}.
 During the scoring phase Prinz:
 \begin{enumerate}
-	\item converts inputs to external types based on the model signature,
-	\item triggers scoring and receives outputs,
-	\item translates results from external types to the ones used by Nussknacker.
+    \item converts inputs to external types based on the model signature,
+    \item triggers scoring and receives outputs,
+    \item translates results from external types to the ones used by Nussknacker.
 \end{enumerate}
 Received outputs may be used for further processing.
