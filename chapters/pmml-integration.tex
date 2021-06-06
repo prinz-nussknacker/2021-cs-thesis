@@ -9,9 +9,9 @@ The main goal was to be able to exchange predictive models produced by data mini
 and machine learning algorithms between applications. The standard is widely spread across the world,
 with over 30 organizations have announced their use of it.\cite{dmgpage}\cite{pmmlpowered}
 
-In our \texttt{Prinz} solution, we are using \texttt{JPMML} library to serve PMML models. \texttt{JPMML} is open-source Java's
+In our Prinz solution, we are using \texttt{JPMML} library to serve PMML models. \texttt{JPMML} is open-source Java's
 implementation of the PMML standard. This way we can support most of the standard versions, especially the latest
-4.0, 4.1, 4.2, 4.3, and 4.4. Modules of the project used in \texttt{Prinz} are \texttt{JPMML-Model},
+4.0, 4.1, 4.2, 4.3, and 4.4. Modules of the project used in Prinz are \texttt{JPMML-Model},
 \texttt{JPMML-Evaluator} and \texttt{JPMML-Transpiler}. The first one is released under the terms and conditions
 of the BSD 3-Clause "New" or "Revised" License. Model and transpiler are published under GNU Affero General Public License v3.0.
 Therefore, that is the point of such license in PMML's package in our repo.\cite{jpmml}
@@ -36,11 +36,11 @@ PMML is based on XML language. The file is composed of several components such a
 
 The standard as well as its \texttt{JMPPL} implementation, does not provide any systematic way of versioning and serving models.
 Thus, we had to design our way of storing PMML models. One of the project’s key principles was
-to make \texttt{Prinz} open for further integrations and development. To ensure this we have implemented a \texttt{RepositoryClient}.
+to make Prinz open for further integrations and development. To ensure this we have implemented a \texttt{RepositoryClient}.
 A generic API \texttt{AbstractRepositoryClient} provides methods to list files, open them and validate. Then the \texttt{RepositoryClientFactory}
 knows which implementation of the client to choose based on URI’s schema. For now, we have supported the local filesystem client and HTTP client.
 Working with a local file system repository is fairly straightforward. To get the HTTP repository to work, an HTML selector to a files' href elements
-is required. Then if URI leads to HTML page, \texttt{Prinz} will download the page find the links to PMML files. Otherwise, if URI points
+is required. Then if URI leads to HTML page, Prinz will download the page find the links to PMML files. Otherwise, if URI points
 to the PMML file, the repository will simply get it.
 
 To integrate a new one, you have to simply implement the abstract API and add one line to the factory’s registry.
