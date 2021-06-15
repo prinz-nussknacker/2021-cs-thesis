@@ -1,20 +1,17 @@
 \chapter{Responsibilities}
 \label{chap:responsibilities}
 
-\todo[inline]{Revisit in June 2021.}
-
 There were four students involved in the project.
-Workload was divided as described below.
+Workload was divided as described:
 
-Maciej Procyk - setup MLflow and Nussknacker to first \texttt{dev-environment}, setup files linters,
-add S3 client, initialize integration tests structure, create configuration structure, introduce HTTP client for MLflow integration,
-configure automatic publishing of library
-
-Michał Jadwiszczak - design Prinz Model API, setup ngnix, separate structure of  \\ \texttt{docker-compose.yaml} for every integration,
-implement \texttt{ModelRepository} for PMML and H2O, propose \texttt{RepositoryClient} abstraction
-
-Jan Kukowski - implement data structures, create MLflow data converter, write unit and integration tests
-for data structures and conversion, combine Nussknacker types with model signature, implement PMML and H2O signature parsing
-
-Krzysztof Antoniak - setup base repository structure, setup Scalastyle rules, setup sample enricher, add source and sink to sample,
-setup first FraudDetection model sample, create PMML sample models, setup GitBook, implement \texttt{Model} and \texttt{ModelInstance} for PMML and H2O.
+\begin{itemize}
+    \item Krzysztof Antoniak: setup base repository structure, setup Scalastyle rules, setup sample enricher, add source and sink to sample,
+    setup first FraudDetection model sample, create PMML sample models, setup GitBook, implement \texttt{Model} and \texttt{ModelInstance} for PMML and H2O,
+    \item Michał Jadwiszczak: design Prinz Model API, setup ngnix, separate structure of  \\ \texttt{docker-compose.yaml} for every integration,
+    implement \texttt{ModelRepository} for PMML and H2O, propose \texttt{RepositoryClient} abstraction,
+    \item Jan Kukowski: implement data structures, create MLflow data converter, write unit and integration tests
+    for data structures and conversion, combine Nussknacker types with model signature, implement PMML and H2O signature parsing,
+    \item Maciej Procyk: setup MLflow and Nussknacker to first \texttt{dev-environment}, setup files linters,
+    add S3 client, initialize integration tests structure, create configuration structure, introduce HTTP client for MLflow integration,
+    configure automatic publishing of library.
+\end{itemize}
